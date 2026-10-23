@@ -1,1 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find public business, organisation and government office contacts across Nigeria.">
+  <title>Public Contact Directory Nigeria</title>
+  <style>
+    :root {
+      --green: #075b37;
+      --green-light: #12804a;
+      --gold: #e1b94f;
+      --bg: #f4f8f6;
+      --text: #24352c;
+      --muted: #65736b;
+      --white: #fff;
+    }
 
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--white);
+      border-bottom: 1px solid #e3ebe5;
+      padding: 17px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      color: var(--green);
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .brand span { color: var(--gold); }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 16px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    nav a:hover { color: var(--green-light); }
+
+    .hero {
+      padding: 75px 20px 65px;
+      text-align: center;
+      color: var(--white);
+      background: linear-gradient(135deg, #06472d, #12804a);
+    }
+
+    .hero .eyebrow {
+      color: #f5d779;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .hero h1 {
+      max-width: 800px;
+      margin: 15px auto;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.12;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 0 auto 25px;
+      color: #e4f1e8;
+    }
+
+    .search-panel {
+      max-width: 850px;
+      margin: -28px auto 0;
+      padding: 24px;
+      position: relative;
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 12px 35px #123a2517;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    input, select, button {
+      font: inherit;
+      border-radius: 8px;
+    }
+
+    input, select {
+      width: 100%;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid #d4dfd7;
+      background: var(--white);
+      color: var(--text);
+    }
+
+    input:focus, select:focus {
+      outline: 2px solid #83b99b;
+      outline-offset: 1px;
+    }
+
+    button, .button {
+      border: 0;
+      background: var(--green);
+      color: var(--white);
+      padding: 13px 20px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    button:hover, .button:hover { background: var(--green-light); }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    main {
+      max-width: 1120px;
+      padding: 50px 20px 70px;
+      margin: auto;
+    }
+
+    .section-heading { margin-bottom: 22px; }
+
+    .section-heading h2 {
+      margin-bottom: 5px;
+      color: var(--green);
+      font-size: 29px;
+    }
+
+    .section-heading p { color: var(--muted); margin-top: 0; }
+
+    .notice {
+      background: #fff7df;
+      border-left: 4px solid var(--gold);
+      padding: 13px 16px;
+      border-radius: 5px;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .listing {
+      background: var(--white);
+      border: 1px solid #e1e9e3;
+      padding: 22px;
+      border-radius: 13px;
+      box-shadow: 0 5px 18px #123a2508;
+    }
+
+    .listing h3 { margin: 10px 0 5px; color: var(--green); }
+
+    .listing p { margin: 5px 0; font-size: 14px; }
+
+    .category {
+      display: inline-block;
+      background: #e8f4ec;
+      color: var(--green);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 12px !important;
+      margin-top: 12px !important;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      background: var(--white);
+      border-radius: 12px;
+      padding: 35px 20px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 45px;
+    }
+
+    .info-card {
+      background: var(--white);
+      padding: 22px;
+      border-radius: 12px;
+      border-top: 3px solid var(--gold);
+    }
+
+    .info-card h3 { color: var(--green); }
+
+    footer {
+      padding: 28px 20px;
+      background: #063d27;
+      color: #e3f0e7;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer a { color: #f5d779; }
+
+    @media (max-width: 760px) {
+      header { justify-content: center; text-align: center; }
+      nav a { margin: 0 7px; }
+      .search-row { flex-direction: column; }
+      .results, .info-grid { grid-template-columns: 1fr; }
+      .filters { grid-template-columns: 1fr; }
+      .search-panel { margin: -20px 12px 0; padding: 18px; }
+      main { padding-top: 35px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">PUBLIC CONTACT <span>DIRECTORY</span></div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#directory">Directory</a>
+      <a href="#how-it-works">How It Works</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="eyebrow">Connecting people across Nigeria</div>
+    <h1>Find the Right Contact. Reach the Right Place.</h1>
+    <p>
+      Search for businesses, organisations and public offices.
+      Find published contact details and discover official ways to get in touch.
+    </p>
+  </section>
+
+  <section class="search-panel" aria-label="Directory search">
+    <form id="searchForm">
+      <div class="search-row">
+        <input id="searchInput" type="search"
+          placeholder="Search a name, service, office or phone number"
+          aria-label="Search directory">
+        <button type="submit">Search Directory</button>
+      </div>
+      <div class="filters">
+        <select id="categoryFilter" aria-label="Filter by category">
+          <option value="all">All categories</option>
+          <option value="Government">Government office</option>
+          <option value="Business">Business</option>
+          <option value="Health">Health service</option>
+          <option value="Education">Education</option>
+          <option value="NGO">NGO / Organisation</option>
+        </select>
+        <select id="stateFilter" aria-label="Filter by state">
+          <option value="all">All locations</option>
+          <option value="FCT">FCT Abuja</option>
+          <option value="Lagos">Lagos</option>
+          <option value="Kano">Kano</option>
+        </select>
+      </div>
+    </form>
+  </section>
+
+  <main>
+    <section id="directory">
+      <div class="section-heading">
+        <h2>Explore the Directory</h2>
+        <p>Search available listings by name, category, location or published contact.</p>
+      </div>
+
+      <div class="notice">
+        <strong>Prototype notice:</strong> The entries below are fictional examples
+        for testing the search feature. They are not real contacts.
+      </div>
+
+      <div class="results" id="results" aria-live="polite"></div>
+    </section>
+
+    <section id="how-it-works">
+      <div class="section-heading" style="margin-top:50px">
+        <h2>A Directory Built on Trust</h2>
+        <p>Our goal is to make public contact information easier to find and verify.</p>
+      </div>
+
+      <div class="info-grid">
+        <article class="info-card">
+          <h3>Search Easily</h3>
+          <p>Find listings by name, service, category, location or available phone number.</p>
+        </article>
+        <article class="info-card">
+          <h3>Check the Source</h3>
+          <p>Future listings will include a source and a date checked to help users assess accuracy.</p>
+        </article>
+        <article class="info-card">
+          <h3>Request a Contact</h3>
+          <p>When details are missing, we plan to provide a request route where an authorised channel exists.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>Public Contact Directory Nigeria</strong></p>
+    <p>Helping people find public contacts and official channels.</p>
+    <p>Prototype version — sample listings are fictional.</p>
+  </footer>
+
+  <script>
+    // Fictional sample data for testing only. Replace with verified listings later.
+    const listings = [
+      {
+        name: "Sample Government Service Office",
+        category: "Government",
+        state: "FCT",
+        description: "Example public office listing for testing.",
+        phone: "",
+        status: "Fictional demonstration listing"
+      },
+      {
+        name: "Sample Business Centre",
+        category: "Business",
+        state: "Lagos",
+        description: "Example business listing for testing.",
+        phone: "",
+        status: "Fictional demonstration listing"
+      },
+      {
+        name: "Sample Health Support Centre",
+        category: "Health",
+        state: "Kano",
+        description: "Example health-service listing for testing.",
+        phone: "",
+        status: "Fictional demonstration listing"
+      },
+      {
+        name: "Sample Learning Centre",
+        category: "Education",
+        state: "FCT",
+        description: "Example education listing for testing.",
+        phone: "",
+        status: "Fictional demonstration listing"
+      },
+      {
+        name: "Sample Women Support Organisation",
+        category: "NGO",
+        state: "Lagos",
+        description: "Example organisation listing for testing.",
+        phone: "",
+        status: "Fictional demonstration listing"
+      }
+    ];
+
+    const results = document.getElementById("results");
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const stateFilter = document.getElementById("stateFilter");
+    const searchForm = document.getElementById("searchForm");
+
+    function renderListings() {
+      const query = searchInput.value.trim().toLowerCase();
+      const category = categoryFilter.value;
+      const state = stateFilter.value;
+
+      const filtered = listings.filter(item => {
+        const searchable = [
+          item.name, item.category, item.state,
+          item.description, item.phone
+        ].join(" ").toLowerCase();
+
+        return searchable.includes(query) &&
+          (category === "all" || item.category === category) &&
+          (state === "all" || item.state === state);
+      });
+
+      if (!filtered.length) {
+        results.innerHTML = `
+          <div class="empty">
+            <h3>No matching listings</h3>
+            <p>This prototype has no matching entry. It does not mean the person or organisation does not exist.</p>
+            <p>As the directory grows, verified listings will be added.</p>
+          </div>`;
+        return;
+      }
+
+      results.innerHTML = filtered.map(item => `
+        <article class="listing">
+          <span class="category">${item.category}</span>
+          <h3>${item.name}</h3>
+          <p><strong>Location:</strong> ${item.state}</p>
+          <p>${item.description}</p>
+          <p class="status">${item.status}</p>
+        </article>
+      `).join("");
+    }
+
+    searchForm.addEventListener("submit", event => {
+      event.preventDefault();
+      renderListings();
+    });
+
+    searchInput.addEventListener("input", renderListings);
+    categoryFilter.addEventListener("change", renderListings);
+    stateFilter.addEventListener("change", renderListings);
+
+    renderListings();
+  </script>
+</body>
+</html>
