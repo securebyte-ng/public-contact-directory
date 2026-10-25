@@ -406,7 +406,7 @@ const supabaseClient = window.supabase.createClient(
         listings.splice(0, listings.length, ...data.map(contact => ({
             name: contact.full_name || contact.organization || "Unnamed contact",
             category: contact.category || contact.contact_type || "Other",
-            state: contact.state || "",
+            state: contact.state || contact.jurisdiction || "National",
             description: [
                 contact.official_title,
                 contact.organization,
