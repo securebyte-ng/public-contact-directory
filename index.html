@@ -438,6 +438,38 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
+   async function loadContacts() {
+    const { data, error } = await supabaseClient
+        .from("public_contacts")
+        .select("*");
+
+    if (error) {
+        console.error("Could not load contacts:", error.message);
+        return;
+    }
+
+    if (data && data.length > 0) {
+        listings.splice(0, listings.length, ...data.map(contact => ({
+            name: contact.full_name || contact.organization || "Unnamed contact",
+            category: contact.category || contact.contact_type || "Other",
+            state: contact.state || "",
+            description: [
+                contact.official_title,
+                contact.organization,
+                contact.public_email,
+                contact.official_website
+            ].filter(Boolean).join(" | "),
+            phone: contact.public_phone || "",
+            status: contact.verification_date
+                ? "Verification date: " + contact.verification_date
+                : "Public contact"
+        })));
+
+        renderListings();
+    }
+}
+
+loadContacts(); 
   </script>
 </body>
 </html>
