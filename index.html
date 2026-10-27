@@ -1,704 +1,609 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Find public business, organisation and government office contacts across Nigeria.">
-  <title>Public Contact Directory Nigeria</title>
-  <style>
-    :root {
-      --green: #075b37;
-      --green-light: #12804a;
-      --gold: #e1b94f;
-      --bg: #f4f8f6;
-      --text: #24352c;
-      --muted: #65736b;
-      --white: #fff;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Find public businesses, organisations, government offices and services across Nigeria.">
+<title>Public Contact Directory Nigeria</title>
 
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.6;
-    }
-
-    header {
-      background: var(--white);
-      border-bottom: 1px solid #e3ebe5;
-      padding: 17px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      color: var(--green);
-      font-weight: 800;
-      font-size: 20px;
-    }
-
-    .brand span { color: var(--gold); }
-
-    nav a {
-      color: var(--text);
-      text-decoration: none;
-      margin-left: 16px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    nav a:hover { color: var(--green-light); }
-
-    .hero {
-      padding: 75px 20px 65px;
-      text-align: center;
-      color: var(--white);
-      background: linear-gradient(135deg, #06472d, #12804a);
-    }
-
-    .hero .eyebrow {
-      color: #f5d779;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .hero h1 {
-      max-width: 800px;
-      margin: 15px auto;
-      font-size: clamp(32px, 5vw, 54px);
-      line-height: 1.12;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin: 0 auto 25px;
-      color: #e4f1e8;
-    }
-
-    .search-panel {
-      max-width: 850px;
-      margin: -28px auto 0;
-      padding: 24px;
-      position: relative;
-      background: var(--white);
-      border-radius: 16px;
-      box-shadow: 0 12px 35px #123a2517;
-    }
-
-    .search-row {
-      display: flex;
-      gap: 10px;
-    }
-
-    input, select, button {
-      font: inherit;
-      border-radius: 8px;
-    }
-
-    input, select {
-      width: 100%;
-      min-width: 0;
-      padding: 14px;
-      border: 1px solid #d4dfd7;
-      background: var(--white);
-      color: var(--text);
-    }
-
-    input:focus, select:focus {
-      outline: 2px solid #83b99b;
-      outline-offset: 1px;
-    }
-
-    button, .button {
-      border: 0;
-      background: var(--green);
-      color: var(--white);
-      padding: 13px 20px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    button:hover, .button:hover { background: var(--green-light); }
-
-    .filters {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    main {
-      max-width: 1120px;
-      padding: 50px 20px 70px;
-      margin: auto;
-    }
-
-    .section-heading { margin-bottom: 22px; }
-
-    .section-heading h2 {
-      margin-bottom: 5px;
-      color: var(--green);
-      font-size: 29px;
-    }
-
-    .section-heading p { color: var(--muted); margin-top: 0; }
-
-    .notice {
-      background: #fff7df;
-      border-left: 4px solid var(--gold);
-      padding: 13px 16px;
-      border-radius: 5px;
-      font-size: 14px;
-      margin-bottom: 24px;
-    }
-
-    .results {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .listing {
-      background: var(--white);
-      border: 1px solid #e1e9e3;
-      padding: 22px;
-      border-radius: 13px;
-      box-shadow: 0 5px 18px #123a2508;
-    }
-
-    .listing h3 { margin: 10px 0 5px; color: var(--green); }
-
-    .listing p { margin: 5px 0; font-size: 14px; }
-
-    .category {
-      display: inline-block;
-      background: #e8f4ec;
-      color: var(--green);
-      border-radius: 20px;
-      padding: 4px 10px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .status {
-      color: var(--muted);
-      font-size: 12px !important;
-      margin-top: 12px !important;
-    }
-
-    .empty {
-      grid-column: 1 / -1;
-      text-align: center;
-      background: var(--white);
-      border-radius: 12px;
-      padding: 35px 20px;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 45px;
-    }
-
-    .info-card {
-      background: var(--white);
-      padding: 22px;
-      border-radius: 12px;
-      border-top: 3px solid var(--gold);
-    }
-
-    .info-card h3 { color: var(--green); }
-
-    footer {
-      padding: 28px 20px;
-      background: #063d27;
-      color: #e3f0e7;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    footer a { color: #f5d779; }
-
-    @media (max-width: 760px) {
-      header { justify-content: center; text-align: center; }
-      nav a { margin: 0 7px; }
-      .search-row { flex-direction: column; }
-      .results, .info-grid { grid-template-columns: 1fr; }
-      .filters { grid-template-columns: 1fr; }
-      .search-panel { margin: -20px 12px 0; padding: 18px; }
-      main { padding-top: 35px; }
-    }
-/* ===== PUBLIC CONTACT DIRECTORY: DESIGN UPGRADE ===== */
-
+<style>
 :root {
-  --primary: #2457d6;
-  --primary-dark: #173fa8;
-  --accent: #f0b429;
-  --surface: #ffffff;
-  --page-bg: #f4f7fc;
+  --blue: #2457d6;
+  --blue-dark: #173fa8;
+  --green: #087443;
+  --gold: #f0b429;
+  --background: #f4f7fc;
   --text: #17233c;
   --muted: #667085;
+  --white: #fff;
 }
-
-html {
-  scroll-behavior: smooth;
-}
-
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  background: var(--page-bg);
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
   color: var(--text);
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
   line-height: 1.6;
 }
-
 header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 10;
+  background: white;
+  padding: 17px 6%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 18px 6%;
-  background: rgba(255, 255, 255, 0.97);
-  border-bottom: 1px solid #e7ecf5;
-  box-shadow: 0 4px 18px rgba(20, 40, 80, 0.06);
-}
-
-.brand {
-  font-size: clamp(17px, 2vw, 24px);
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-.brand span {
-  color: var(--primary);
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  gap: 24px;
   flex-wrap: wrap;
+  gap: 15px;
+  box-shadow: 0 3px 15px #17233c12;
 }
-
-nav a {
-  color: var(--text);
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.2s ease;
+.brand {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--green);
 }
-
-nav a:hover {
-  color: var(--primary);
-}
-
+.brand span { color: var(--blue); }
+nav { display: flex; gap: 20px; flex-wrap: wrap; }
+nav a { color: var(--text); text-decoration: none; font-weight: 600; }
+nav a:hover { color: var(--blue); }
 .hero {
-  padding: 85px 6% 100px;
+  padding: 75px 20px 95px;
   text-align: center;
   color: white;
-  background:
-    radial-gradient(ellipse at 50% 100%, rgba(27, 170, 120, 0.6), transparent 55%),
-    linear-gradient(135deg, #142e70, #2457d6 58%, #117d69);
+  background: linear-gradient(130deg, #123575, #2457d6 55%, #087b68);
 }
-
+.eyebrow {
+  color: #ffe08a;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  font-weight: bold;
+}
 .hero h1 {
-  max-width: 950px;
-  margin: 18px auto;
-  font-size: clamp(32px, 5vw, 58px);
-  line-height: 1.12;
-  letter-spacing: -1.5px;
+  max-width: 850px;
+  margin: 16px auto;
+  font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.15;
 }
-
-.hero p {
-  max-width: 720px;
-  margin: 18px auto 28px;
-  color: #eaf0ff;
-  font-size: 17px;
-}
-
-.search-panel,
-.search-box,
-.search-panel form {
-  border-radius: 18px;
-}
-
+.hero p { max-width: 680px; margin: auto; color: #eef3ff; }
 .search-panel {
   position: relative;
-  z-index: 2;
   max-width: 1000px;
-  margin: -35px auto 35px;
+  margin: -35px auto 30px;
   padding: 24px;
-  background: var(--surface);
-  box-shadow: 0 16px 45px rgba(22, 42, 83, 0.12);
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 15px 40px #17233c18;
 }
-
-input,
-select,
-textarea {
+.search-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+input, select, button {
+  font: inherit;
+  border-radius: 9px;
+}
+input, select {
+  width: 100%;
+  min-width: 0;
   min-height: 48px;
-  border: 1px solid #dce3ef;
-  border-radius: 10px;
-  padding: 12px 14px;
+  padding: 12px;
+  border: 1px solid #d5deeb;
   background: white;
   color: var(--text);
-  font: inherit;
 }
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: 3px solid rgba(36, 87, 214, 0.16);
-  border-color: var(--primary);
+input:focus, select:focus {
+  outline: 3px solid #2457d625;
+  border-color: var(--blue);
 }
-
-button,
-.btn {
-  min-height: 46px;
+button, .action {
+  display: inline-block;
   border: 0;
-  border-radius: 10px;
-  padding: 12px 20px;
-  background: var(--primary);
+  border-radius: 9px;
+  padding: 11px 15px;
+  background: var(--blue);
   color: white;
-  font: inherit;
-  font-weight: 700;
+  text-decoration: none;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
 }
-
-button:hover,
-.btn:hover {
-  background: var(--primary-dark);
-  transform: translateY(-1px);
-}
-
-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 24px 60px;
-}
-
-.results,
-.info-grid,
+button:hover, .action:hover { background: var(--blue-dark); }
 .filters {
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 13px;
 }
-
-.results > *,
-.info-grid > *,
-.search-panel > * {
-  min-width: 0;
+main { max-width: 1200px; margin: auto; padding: 25px 22px 60px; }
+.section-heading { margin: 25px 0; }
+.section-heading h2 { color: var(--blue-dark); font-size: 29px; margin-bottom: 4px; }
+.section-heading p { color: var(--muted); margin-top: 0; }
+.notice {
+  background: #fff7df;
+  border-left: 4px solid var(--gold);
+  border-radius: 7px;
+  padding: 13px 16px;
+  margin-bottom: 22px;
+  font-size: 14px;
 }
-
-.results > *,
-.info-grid > * {
-  border-radius: 16px;
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
 }
-
-footer {
-  margin-top: 40px;
-  padding: 32px 6%;
-  background: #14254a;
-  color: #ffffff;
+.listing {
+  background: white;
+  padding: 21px;
+  border: 1px solid #e2e8f0;
+  border-radius: 15px;
+  box-shadow: 0 5px 18px #17233c08;
+  overflow-wrap: anywhere;
+}
+.listing h3 { color: var(--green); margin: 10px 0 5px; }
+.listing p { margin: 7px 0; font-size: 14px; }
+.category {
+  display: inline-block;
+  background: #e8f4ec;
+  color: var(--green);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.status { color: var(--muted); font-size: 12px !important; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+.actions button, .actions a { font-size: 13px; padding: 9px 12px; }
+.call { background: var(--green); }
+.secondary { background: #475467; }
+.empty {
+  grid-column: 1 / -1;
   text-align: center;
+  background: white;
+  padding: 35px 20px;
+  border-radius: 12px;
 }
-
-footer a {
-  color: #dce7ff;
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 25px;
 }
-
-@media (max-width: 700px) {
-  header {
-    padding: 14px 5%;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  nav {
-    gap: 14px;
-    font-size: 14px;
-  }
-
-  .hero {
-    padding: 60px 5% 75px;
-  }
-
-  .hero h1 {
-    letter-spacing: -0.7px;
-  }
-
-  .search-panel {
-    margin: -24px 12px 25px;
-    padding: 16px;
-  }
-
-  .search-row,
-  .search-panel form,
-  .filters,
-  .results,
-  .info-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  main {
-    padding: 24px 16px 40px;
-  }
+.info-card {
+  background: white;
+  padding: 22px;
+  border-radius: 13px;
+  border-top: 4px solid var(--gold);
 }
-
-    
-  </style>
+.info-card h3 { color: var(--green); }
+footer {
+  background: #14254a;
+  color: white;
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 35px;
+}
+footer p { margin: 5px; }
+@media(max-width: 760px) {
+  header { flex-direction: column; text-align: center; }
+  nav { justify-content: center; gap: 14px; }
+  .search-panel { margin: -25px 12px 25px; padding: 16px; }
+  .search-row, .filters, .results, .info-grid {
+    grid-template-columns: 1fr;
+  }
+  main { padding: 20px 14px 40px; }
+}
+</style>
 </head>
+
 <body>
-  <header>
-    <div class="brand">PUBLIC CONTACT <span>DIRECTORY</span></div>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#directory">Directory</a>
-      <a href="#how-it-works">How It Works</a>
-    </nav>
-  </header>
-  
-  <section class="hero" id="home">
-    <div class="eyebrow">Connecting people across Nigeria</div>
-    <h1>Find the Right Contact. Reach the Right Place.</h1>
-    <p>
-      Search for businesses, organisations and public offices.
-      Find published contact details and discover official ways to get in touch.
-    </p>
+<header>
+  <div class="brand">PUBLIC CONTACT <span>DIRECTORY</span></div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#directory">Directory</a>
+    <a href="#how-it-works">How It Works</a>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="eyebrow">Connecting people across Nigeria</div>
+  <h1>Find the Right Contact. Reach the Right Place.</h1>
+  <p>Search public businesses, organisations, government offices and services. Find published contact details and official ways to get in touch.</p>
+</section>
+
+<section class="search-panel" aria-label="Directory search">
+  <form id="searchForm">
+    <div class="search-row">
+      <input id="searchInput" type="search"
+        placeholder="Search a name, service, office or phone number"
+        aria-label="Search directory">
+      <button type="submit">Search Directory</button>
+    </div>
+
+    <div class="filters">
+      <select id="categoryFilter" aria-label="Filter by category">
+        <option value="all">All categories</option>
+        <option>Government</option>
+        <option>Government Agency</option>
+        <option>Police</option>
+        <option>Road Safety</option>
+        <option>Customs</option>
+        <option>Immigration</option>
+        <option>Civil Defence</option>
+        <option>Fire Service</option>
+        <option>Emergency Services</option>
+        <option>Legal Services</option>
+        <option>Health</option>
+        <option>Education</option>
+        <option>Business</option>
+        <option>NGO</option>
+        <option>Public Utilities</option>
+        <option>Consumer Protection</option>
+        <option>Other</option>
+      </select>
+
+      <select id="stateFilter" aria-label="Filter by state">
+        <option value="all">All states and FCT</option>
+        <option>Abia</option>
+        <option>Adamawa</option>
+        <option>Akwa Ibom</option>
+        <option>Anambra</option>
+        <option>Bauchi</option>
+        <option>Bayelsa</option>
+        <option>Benue</option>
+        <option>Borno</option>
+        <option>Cross River</option>
+        <option>Delta</option>
+        <option>Ebonyi</option>
+        <option>Edo</option>
+        <option>Ekiti</option>
+        <option>Enugu</option>
+        <option>Gombe</option>
+        <option>Imo</option>
+        <option>Jigawa</option>
+        <option>Kaduna</option>
+        <option>Kano</option>
+        <option>Katsina</option>
+        <option>Kebbi</option>
+        <option>Kogi</option>
+        <option>Kwara</option>
+        <option>Lagos</option>
+        <option>Nasarawa</option>
+        <option>Niger</option>
+        <option>Ogun</option>
+        <option>Ondo</option>
+        <option>Osun</option>
+        <option>Oyo</option>
+        <option>Plateau</option>
+        <option>Rivers</option>
+        <option>Sokoto</option>
+        <option>Taraba</option>
+        <option>Yobe</option>
+        <option>Zamfara</option>
+        <option>FCT</option>
+      </select>
+
+      <select id="lgaFilter" aria-label="Filter by LGA">
+        <option value="all">All LGAs / Area Councils</option>
+      </select>
+    </div>
+  </form>
+</section>
+
+<main>
+  <section id="directory">
+    <div class="section-heading">
+      <h2>Explore the Directory</h2>
+      <p>Search available listings by name, category, location or published contact.</p>
+    </div>
+
+    <div class="notice">
+      Please verify important contact details using the organisation's official source.
+      Only public or consented contact information should be listed.
+    </div>
+
+    <div id="directoryStatus" aria-live="polite"></div>
+    <div class="results" id="results" aria-live="polite"></div>
   </section>
 
-  <section class="search-panel" aria-label="Directory search">
-    <form id="searchForm">
-      <div class="search-row">
-        <input id="searchInput" type="search"
-          placeholder="Search a name, service, office or phone number"
-          aria-label="Search directory">
-        <button type="submit">Search Directory</button>
-      </div>
-      <div class="filters">
-        <select id="categoryFilter" aria-label="Filter by category">
-          <option value="all">All categories</option>
-          <option value="Government">Government office</option>
-          <option value="Business">Business</option>
-          <option value="Health">Health service</option>
-          <option value="Education">Education</option>
-          <option value="NGO">NGO / Organisation</option>
-          <option value="Police">Police</option>
-          <option value="Road Safety">Road Safety (FRSC)</option>
-          <option value="Customs">Customs Service</option>
-          <option value="Immigration">Immigration Service</option>
-          <option value="Civil Defence">Civil Defence</option>
-          <option value="Fire Service">Fire Service</option>
-          <option value="Emergency Services">Emergency Services</option>
-          <option value="Legal Services">Lawyers & Legal Services</option>
-          <option value="Government Agency">Government Agencies</option>
-          <option value="Public Utilities">Public Utilities</option>
-
-          
-        </select>
-        
-<select id="stateFilter" aria-label="Filter by location">
-  <option value="all">All locations</option>
-  <option value="Abia">Abia</option>
-  <option value="Adamawa">Adamawa</option>
-  <option value="Akwa Ibom">Akwa Ibom</option>
-  <option value="Anambra">Anambra</option>
-  <option value="Bauchi">Bauchi</option>
-  <option value="Bayelsa">Bayelsa</option>
-  <option value="Benue">Benue</option>
-  <option value="Borno">Borno</option>
-  <option value="Cross River">Cross River</option>
-  <option value="Delta">Delta</option>
-  <option value="Ebonyi">Ebonyi</option>
-  <option value="Edo">Edo</option>
-  <option value="Ekiti">Ekiti</option>
-  <option value="Enugu">Enugu</option>
-  <option value="Gombe">Gombe</option>
-  <option value="Imo">Imo</option>
-  <option value="Jigawa">Jigawa</option>
-  <option value="Kaduna">Kaduna</option>
-  <option value="Kano">Kano</option>
-  <option value="Katsina">Katsina</option>
-  <option value="Kebbi">Kebbi</option>
-  <option value="Kogi">Kogi</option>
-  <option value="Kwara">Kwara</option>
-  <option value="Lagos">Lagos</option>
-  <option value="Nasarawa">Nasarawa</option>
-  <option value="Niger">Niger</option>
-  <option value="Ogun">Ogun</option>
-  <option value="Ondo">Ondo</option>
-  <option value="Osun">Osun</option>
-  <option value="Oyo">Oyo</option>
-  <option value="Plateau">Plateau</option>
-  <option value="Rivers">Rivers</option>
-  <option value="Sokoto">Sokoto</option>
-  <option value="Taraba">Taraba</option>
-  <option value="Yobe">Yobe</option>
-  <option value="Zamfara">Zamfara</option>
-<option value="FCT">FCT Abuja</option>
-</select>
-
-<select id="lgaFilter"
- aria-label="Filter by Local Government Area" disabled>
-  <option value="all">All LGAs / Area Councils</option>
-</select>
-
-</div>
-</form>
-
-      </div>
-    </form>
+  <section id="how-it-works">
+    <div class="section-heading">
+      <h2>A Directory Built on Trust</h2>
+      <p>Our goal is to make public contact information easier to find and verify.</p>
+    </div>
+    <div class="info-grid">
+      <article class="info-card">
+        <h3>Search Easily</h3>
+        <p>Find listings by name, service, category, location or available phone number.</p>
+      </article>
+      <article class="info-card">
+        <h3>Check the Source</h3>
+        <p>Check official websites, sources and verification dates before relying on a listing.</p>
+      </article>
+      <article class="info-card">
+        <h3>Help Improve the Directory</h3>
+        <p>Incorrect public contact information should be reported for review before it is updated.</p>
+      </article>
+    </div>
   </section>
+</main>
 
-  <main>
-    <section id="directory">
-      <div class="section-heading">
-        <h2>Explore the Directory</h2>
-        <p>Search available listings by name, category, location or published contact.</p>
-      </div>
+<footer>
+  <p><strong>Public Contact Directory Nigeria</strong></p>
+  <p>Helping people find public contacts and official channels.</p>
+  <p>Contact details should be verified before use.</p>
+</footer>
 
-      <div class="results" id="results" aria-live="polite"></div>
-    </section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
 
-    <section id="how-it-works">
-      <div class="section-heading" style="margin-top:50px">
-        <h2>A Directory Built on Trust</h2>
-        <p>Our goal is to make public contact information easier to find and verify.</p>
-      </div>
+const SUPABASE_URL = "https://xcxfhendyozxaktdckbi.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ejmz1U8SXMYBJHXB_YQ7SQ_XsrQ4Y1e";
 
-      <div class="info-grid">
-        <article class="info-card">
-          <h3>Search Easily</h3>
-          <p>Find listings by name, service, category, location or available phone number.</p>
-        </article>
-        <article class="info-card">
-          <h3>Check the Source</h3>
-          <p>Future listings will include a source and a date checked to help users assess accuracy.</p>
-        </article>
-        <article class="info-card">
-          <h3>Request a Contact</h3>
-          <p>When details are missing, we plan to provide a request route where an authorised channel exists.</p>
-        </article>
-      </div>
-    </section>
-  </main>
+const results = document.getElementById("results");
+const statusBox = document.getElementById("directoryStatus");
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+const stateFilter = document.getElementById("stateFilter");
+const lgaFilter = document.getElementById("lgaFilter");
+const searchForm = document.getElementById("searchForm");
 
-  <footer>
-    <p><strong>Public Contact Directory Nigeria</strong></p>
-    <p>Helping people find public contacts and official channels.</p>
-    <p>Prototype version — sample listings are fictional.</p>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script> 
-    // Fictional sample data for testing only. Replace with verified listings later.
-    const listings = [];
+let listings = [];
 
-    const results = document.getElementById("results");
-    const searchInput = document.getElementById("searchInput");
-    const categoryFilter = document.getElementById("categoryFilter");
-    const stateFilter = document.getElementById("stateFilter");
-    const searchForm = document.getElementById("searchForm");
-
-    function renderListings() {
-      const query = searchInput.value.trim().toLowerCase();
-      const category = categoryFilter.value;
-      const state = stateFilter.value;
-
-      const filtered = listings.filter(item => {
-        const searchable = [
-          item.name, item.category, item.state,
-          item.description, item.phone
-        ].join(" ").toLowerCase();
-
-        return searchable.includes(query) &&
-          (category === "all" || item.category === category) &&
-          (state === "all" || item.state === state);
-      });
-
-      if (!filtered.length) {
-        results.innerHTML = `
-          <div class="empty">
-            <h3>No matching listings</h3>
-            <p>This prototype has no matching entry. It does not mean the person or organisation does not exist.</p>
-            <p>As the directory grows, verified listings will be added.</p>
-          </div>`;
-        return;
-      }
-
-      results.innerHTML = filtered.map(item => `
-        <article class="listing">
-          <span class="category">${item.category}</span>
-          <h3>${item.name}</h3>
-          <p><strong>Location:</strong> ${item.state}</p>
-          <p>${item.description}</p>
-          <p class="status">${item.status}</p>
-        </article>
-      `).join("");
+function field(obj, names) {
+  for (const name of names) {
+    if (obj && obj[name] != null && String(obj[name]).trim() !== "") {
+      return String(obj[name]).trim();
     }
-
-    searchForm.addEventListener("submit", event => {
-      event.preventDefault();
-      renderListings();
-    });
-
-    searchInput.addEventListener("input", renderListings);
-    categoryFilter.addEventListener("change", renderListings);
-    stateFilter.addEventListener("change", renderListings);
-
-    renderListings();
-    const SUPABASE_URL = "https://xcxfhendyozxaktdckbi.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_ejmz1U8SXMYBJHXB_YQ7SQ_XsrQ4Y1e";
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-   async function loadContacts() {
-    const { data, error } = await supabaseClient
-        .from("public_contacts")
-        .select("*");
-
-    if (error) {
-        console.error("Could not load contacts:", error.message);
-        return;
-    }
-
-    if (data && data.length > 0) {
-        listings.splice(0, listings.length, ...data.map(contact => ({
-            name: contact.full_name || contact.organization || "Unnamed contact",
-            category: contact.category || contact.contact_type || "Other",
-            state: contact.state || contact.jurisdiction || "National",
-            description: [
-                contact.official_title,
-                contact.organization,
-                contact.public_email,
-                contact.official_website
-            ].filter(Boolean).join(" | "),
-            phone: contact.public_phone || "",
-            status: contact.verification_date
-                ? "Verification date: " + contact.verification_date
-                : "Public contact"
-        })));
-
-        renderListings();
-    }
+  }
+  return "";
 }
 
-loadContacts(); 
-  </script>
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function normalize(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function getSearchText(item) {
+  return [
+    item.name, item.organization, item.category, item.state, item.lga,
+    item.description, item.phone, item.email, item.website,
+    item.title, item.address, item.source
+  ].join(" ").toLowerCase();
+}
+
+function categoryMatches(itemCategory, selected) {
+  if (selected === "all") return true;
+  const actual = normalize(itemCategory);
+  const wanted = normalize(selected);
+  if (actual === wanted) return true;
+
+  const aliases = {
+    "police": ["police", "nigeria police"],
+    "road safety": ["frsc", "road safety", "federal road safety"],
+    "customs": ["customs", "nigeria customs"],
+    "immigration": ["immigration", "nigeria immigration"],
+    "civil defence": ["civil defence", "civil defense", "nscdc"],
+    "fire service": ["fire service", "fire brigade"],
+    "emergency services": ["emergency", "ambulance", "rescue"],
+    "legal services": ["lawyer", "legal", "law firm", "court"],
+    "government agency": ["government", "agency", "ministry", "commission"],
+    "health": ["health", "hospital", "clinic", "medical"],
+    "education": ["education", "school", "university", "college"],
+    "business": ["business", "company", "shop"],
+    "ngo": ["ngo", "organisation", "organization", "charity"],
+    "public utilities": ["utility", "electricity", "water", "waste"],
+    "consumer protection": ["consumer", "protection", "complaints"]
+  };
+
+  const terms = aliases[wanted] || [wanted];
+  const searchable = normalize([
+    itemCategory, itemCategory === "Government" ? "government agency" : "",
+    itemCategory === "Health" ? "health" : "",
+    itemCategory === "Other" ? "other" : ""
+  ].join(" "));
+  return terms.some(term => searchable.includes(term));
+}
+
+function refreshLgaOptions() {
+  const selectedState = stateFilter.value;
+  const previous = lgaFilter.value;
+  const areas = new Set();
+
+  listings.forEach(item => {
+    if (selectedState === "all" ||
+        normalize(item.state) === normalize(selectedState)) {
+      if (item.lga) areas.add(item.lga);
+    }
+  });
+
+  lgaFilter.innerHTML = '<option value="all">All LGAs / Area Councils</option>';
+
+  [...areas].sort((a, b) => a.localeCompare(b)).forEach(area => {
+    const option = document.createElement("option");
+    option.value = area;
+    option.textContent = area;
+    lgaFilter.appendChild(option);
+  });
+
+  if ([...areas].includes(previous)) lgaFilter.value = previous;
+}
+
+function makeContactCard(item) {
+  const phone = item.phone.replace(/[^\d+]/g, "");
+  const title = item.title ? `<p><strong>Office:</strong> ${escapeHTML(item.title)}</p>` : "";
+  const location = [item.lga, item.state].filter(Boolean).join(", ");
+  const email = item.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(item.email)
+    ? `<a class="action secondary" href="mailto:${escapeHTML(item.email)}">Email</a>` : "";
+
+  let website = "";
+  try {
+    if (item.website) {
+      const url = new URL(item.website);
+      if (url.protocol === "https:" || url.protocol === "http:") {
+        website = `<a class="action secondary" href="${escapeHTML(url.href)}" target="_blank" rel="noopener noreferrer">Website</a>`;
+      }
+    }
+  } catch (_) {}
+
+  let source = "";
+  try {
+    if (item.source) {
+      const url = new URL(item.source);
+      if (url.protocol === "https:" || url.protocol === "http:") {
+        source = `<p><strong>Source:</strong> <a href="${escapeHTML(url.href)}" target="_blank" rel="noopener noreferrer">View source</a></p>`;
+      }
+    }
+  } catch (_) {}
+
+  const call = phone
+    ? `<a class="action call" href="tel:${escapeHTML(phone)}">Call</a>` : "";
+
+  const shareText = `${item.name}${location ? " — " + location : ""}${item.phone ? " — " + item.phone : ""}`;
+  const share = `<button type="button" class="share-button" data-share="${escapeHTML(shareText)}">Share</button>`;
+
+  return `
+    <article class="listing">
+      <span class="category">${escapeHTML(item.category || "Other")}</span>
+      <h3>${escapeHTML(item.name)}</h3>
+      ${title}
+      ${location ? `<p><strong>Location:</strong> ${escapeHTML(location)}</p>` : ""}
+      ${item.address ? `<p><strong>Address:</strong> ${escapeHTML(item.address)}</p>` : ""}
+      ${item.description ? `<p>${escapeHTML(item.description)}</p>` : ""}
+      ${item.phone ? `<p><strong>Public phone:</strong> ${escapeHTML(item.phone)}</p>` : ""}
+      ${item.email ? `<p><strong>Email:</strong> ${escapeHTML(item.email)}</p>` : ""}
+      ${item.website ? `<p><strong>Website:</strong> ${escapeHTML(item.website)}</p>` : ""}
+      ${source}
+      <p class="status">${escapeHTML(item.status || "Verification status not supplied")}</p>
+      <div class="actions">${call}${email}${website}${share}</div>
+    </article>`;
+}
+
+function renderListings() {
+  const query = normalize(searchInput.value);
+  const category = categoryFilter.value;
+  const state = stateFilter.value;
+  const lga = lgaFilter.value;
+
+  const filtered = listings.filter(item => {
+    return getSearchText(item).includes(query) &&
+      categoryMatches(item.category, category) &&
+      (state === "all" || normalize(item.state) === normalize(state)) &&
+      (lga === "all" || normalize(item.lga) === normalize(lga));
+  });
+
+  if (!filtered.length) {
+    results.innerHTML = `
+      <div class="empty">
+        <h3>No matching listings</h3>
+        <p>Try another search term or change the filters.</p>
+        <p>This does not mean the organisation or service does not exist.</p>
+      </div>`;
+    return;
+  }
+
+  results.innerHTML = filtered.map(makeContactCard).join("");
+}
+
+searchForm.addEventListener("submit", event => {
+  event.preventDefault();
+  renderListings();
+  document.getElementById("directory").scrollIntoView({behavior: "smooth"});
+});
+
+searchInput.addEventListener("input", renderListings);
+categoryFilter.addEventListener("change", renderListings);
+stateFilter.addEventListener("change", () => {
+  refreshLgaOptions();
+  renderListings();
+});
+lgaFilter.addEventListener("change", renderListings);
+
+results.addEventListener("click", async event => {
+  const button = event.target.closest(".share-button");
+  if (!button) return;
+  const text = button.getAttribute("data-share") || "";
+
+  if (navigator.share) {
+    try {
+      await navigator.share({title: "Public Contact Directory Nigeria", text});
+    } catch (_) {}
+  } else if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      button.textContent = "Copied!";
+      setTimeout(() => { button.textContent = "Share"; }, 1800);
+    } catch (_) {
+      window.prompt("Copy this contact:", text);
+    }
+  } else {
+    window.prompt("Copy this contact:", text);
+  }
+});
+
+async function loadContacts() {
+  if (!window.supabase) {
+    statusBox.textContent = "The directory database library could not load. Please refresh the page.";
+    return;
+  }
+
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  statusBox.textContent = "Loading public contacts…";
+
+  const {data, error} = await supabaseClient
+    .from("public_contacts")
+    .select("*");
+
+  if (error) {
+    console.error("Could not load contacts:", error.message);
+    statusBox.textContent = "Contacts could not be loaded. Please check database permissions and try again.";
+    listings = [];
+    renderListings();
+    return;
+  }
+
+  listings = (data || []).map(contact => {
+    const verificationDate = field(contact, ["verification_date", "last_verified", "verified_at"]);
+    return {
+      name: field(contact, ["full_name", "organization", "name", "office_name"]) || "Unnamed contact",
+      organization: field(contact, ["organization", "organisation"]),
+      category: field(contact, ["category", "contact_type", "service_type"]) || "Other",
+      state: field(contact, ["state", "state_name", "jurisdiction"]),
+      lga: field(contact, ["lga", "local_government_area", "local_government", "area_council", "lga_name"]),
+      title: field(contact, ["official_title", "title", "office_title"]),
+      description: field(contact, ["description", "notes", "services", "official_title"]),
+      phone: field(contact, ["public_phone", "phone", "phone_number", "contact_phone"]),
+      email: field(contact, ["public_email", "email", "email_address"]),
+      website: field(contact, ["official_website", "website", "website_url"]),
+      address: field(contact, ["public_address", "address", "office_address"]),
+      source: field(contact, ["source_url", "official_source", "source"]),
+      status: verificationDate ? "Last checked: " + verificationDate : "Verification date not supplied"
+    };
+  });
+
+  statusBox.textContent = listings.length
+    ? `Loaded ${listings.length} contact record(s). Please verify details using official sources.`
+    : "No contact records are available yet.";
+
+  refreshLgaOptions();
+  renderListings();
+}
+
+renderListings();
+loadContacts();
+</script>
 </body>
 </html>
