@@ -241,6 +241,225 @@
       .search-panel { margin: -20px 12px 0; padding: 18px; }
       main { padding-top: 35px; }
     }
+/* ===== PUBLIC CONTACT DIRECTORY: DESIGN UPGRADE ===== */
+
+:root {
+  --primary: #2457d6;
+  --primary-dark: #173fa8;
+  --accent: #f0b429;
+  --surface: #ffffff;
+  --page-bg: #f4f7fc;
+  --text: #17233c;
+  --muted: #667085;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  line-height: 1.6;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 6%;
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid #e7ecf5;
+  box-shadow: 0 4px 18px rgba(20, 40, 80, 0.06);
+}
+
+.brand {
+  font-size: clamp(17px, 2vw, 24px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.brand span {
+  color: var(--primary);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: var(--primary);
+}
+
+.hero {
+  padding: 85px 6% 100px;
+  text-align: center;
+  color: white;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(27, 170, 120, 0.6), transparent 55%),
+    linear-gradient(135deg, #142e70, #2457d6 58%, #117d69);
+}
+
+.hero h1 {
+  max-width: 950px;
+  margin: 18px auto;
+  font-size: clamp(32px, 5vw, 58px);
+  line-height: 1.12;
+  letter-spacing: -1.5px;
+}
+
+.hero p {
+  max-width: 720px;
+  margin: 18px auto 28px;
+  color: #eaf0ff;
+  font-size: 17px;
+}
+
+.search-panel,
+.search-box,
+.search-panel form {
+  border-radius: 18px;
+}
+
+.search-panel {
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  margin: -35px auto 35px;
+  padding: 24px;
+  background: var(--surface);
+  box-shadow: 0 16px 45px rgba(22, 42, 83, 0.12);
+}
+
+input,
+select,
+textarea {
+  min-height: 48px;
+  border: 1px solid #dce3ef;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: white;
+  color: var(--text);
+  font: inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 3px solid rgba(36, 87, 214, 0.16);
+  border-color: var(--primary);
+}
+
+button,
+.btn {
+  min-height: 46px;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 20px;
+  background: var(--primary);
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+button:hover,
+.btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+.results,
+.info-grid,
+.filters {
+  gap: 20px;
+}
+
+.results > *,
+.info-grid > *,
+.search-panel > * {
+  min-width: 0;
+}
+
+.results > *,
+.info-grid > * {
+  border-radius: 16px;
+}
+
+footer {
+  margin-top: 40px;
+  padding: 32px 6%;
+  background: #14254a;
+  color: #ffffff;
+  text-align: center;
+}
+
+footer a {
+  color: #dce7ff;
+}
+
+@media (max-width: 700px) {
+  header {
+    padding: 14px 5%;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  nav {
+    gap: 14px;
+    font-size: 14px;
+  }
+
+  .hero {
+    padding: 60px 5% 75px;
+  }
+
+  .hero h1 {
+    letter-spacing: -0.7px;
+  }
+
+  .search-panel {
+    margin: -24px 12px 25px;
+    padding: 16px;
+  }
+
+  .search-row,
+  .search-panel form,
+  .filters,
+  .results,
+  .info-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  main {
+    padding: 24px 16px 40px;
+  }
+}
+
+    
   </style>
 </head>
 <body>
