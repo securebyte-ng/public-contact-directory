@@ -601,9 +601,87 @@ async function loadContacts() {
   refreshLgaOptions();
   renderListings();
 }
+  
+async function loadLocations() {
+  const stateFilter = document.getElementById("stateFilter");
+  const lgaFilter = document.getElementById("lgaFilter");
+
+  if (!stateFilter || !lgaFilter || !window.supabase) {
+    console.error("State/LGA dropdown or Supabase library missing.");
+    return;
+  }
+
+  try {
+    const client = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const { data, error } = await client
+      .from("nigeria_locations")
+      .select("state_name, lga_name")
+      .order("lga_name");
+
+    if (error) throw error;
+
+    function stateMatches(a, b) {
+      const clean = value =>
+        String(value || "").trim().toLowerCase();
+
+      const first = clean(a);
+      const second = clean(b);
+
+      if (first === second) return true;
+
+      return (
+        (first === "fct" &&
+          second === "federal capital territory") ||
+        (second === "fct" &&
+          first === "federal capital territory")
+      );
+    }
+
+    function updateLgas() {
+      const selectedState = stateFilter.value;
+      const previousLga = lgaFilter.value;
+
+      lgaFilter.innerHTML =
+        '<option value="all">All LGAs / Area Councils</option>';
+
+      const areas = [...new Set(
+        (data || [])
+          .filter(row =>
+            selectedState === "all" ||
+            stateMatches(row.state_name, selectedState)
+          )
+          .map(row => row.lga_name)
+          .filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b));
+
+      areas.forEach(area => {
+        const option = document.createElement("option");
+        option.value = area;
+        option.textContent = area;
+        lgaFilter.appendChild(option);
+      });
+
+      if (areas.includes(previousLga)) {
+        lgaFilter.value = previousLga;
+      }
+    }
+
+    stateFilter.addEventListener("change", updateLgas);
+    updateLgas();
+
+    console.log("Location records loaded:", data.length);
+  } catch (error) {
+    console.error("Could not load locations:", error);
+  }
+}
 
 renderListings();
 loadContacts();
+loadLocations();
 </script>
 </body>
 </html>
