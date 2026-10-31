@@ -531,7 +531,42 @@ function renderListings() {
     </form>
   </div>
 `;
+
+const alertForm = document.getElementById("missingContactAlertForm");
+
+alertForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById("alertEmail").value.trim();
+  const message = document.getElementById("alertMessage");
+  const name = searchInput.value.trim();
+
+  const button = alertForm.querySelector("button");
+  button.disabled = true;
+  button.textContent = "Saving...";
+
+  const { error } = await supabaseClient
+    .from("contact_alerts")
+    .insert({
+      search_name: name,
+      notification_email: email
+    });
+
+  if (error) {
+    message.textContent = "Could not save your request. Please try again.";
+    console.error(error);
+    button.disabled = false;
+    button.textContent = "Notify me";
+    return;
+  }
+
+  message.textContent = "Request saved! We will notify you when a matching contact becomes available.";
+  alertForm.reset();
+  button.textContent = "Request saved";
+});
+
 return;
+
     
   }
 
