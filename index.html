@@ -615,7 +615,7 @@ async function loadContacts() {
     return;
   }
 
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  supabaseClient = window.supabase.createClient(
   statusBox.textContent = "Loading public contacts…";
 
   const {data, error} = await supabaseClient
