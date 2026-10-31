@@ -507,12 +507,32 @@ function renderListings() {
 
   if (!filtered.length) {
     results.innerHTML = `
-      <div class="empty">
-        <h3>No matching listings</h3>
-        <p>Try another search term or change the filters.</p>
-        <p>This does not mean the organisation or service does not exist.</p>
-      </div>`;
-    return;
+  <div class="empty">
+    <h3>Contact not found</h3>
+    <p>We couldn't find this name in our directory.</p>
+    <p>Would you like to be notified when this contact becomes available?</p>
+
+    <form id="missingContactAlertForm">
+      <input
+        type="hidden"
+        name="search_name"
+        value="${escapeHTML(searchInput.value.trim())}"
+      >
+
+      <input
+        type="email"
+        id="alertEmail"
+        placeholder="Enter your email address"
+        required
+      >
+
+      <button type="submit">Notify me</button>
+      <p id="alertMessage"></p>
+    </form>
+  </div>
+`;
+return;
+    
   }
 
   results.innerHTML = filtered.map(makeContactCard).join("");
