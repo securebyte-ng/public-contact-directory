@@ -549,7 +549,7 @@ alertForm.addEventListener("submit", async (event) => {
     .from("contact_alerts")
     .insert({
       search_name: name,
-      notification_email: email
+      notification_phone: phone
     });
 
   if (error) {
