@@ -624,7 +624,7 @@ async function loadContacts() {
   const {data, error} = await supabaseClient
     .from("public_contacts")
     .select("*");
-
+ f
   if (error) {
     console.error("Could not load contacts:", error.message);
     statusBox.textContent = "Contacts could not be loaded. Please check database permissions and try again.";
