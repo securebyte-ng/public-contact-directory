@@ -1,728 +1,1117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Find public businesses, organisations, government offices and services across Nigeria.">
-<title>Public Contact Directory Nigeria</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Find public businesses, organisations, government offices and services across Nigeria.">
+  <meta name="theme-color" content="#173fa8">
+  <title>Public Contact Directory Nigeria</title>
 
-<style>
-:root {
-  --blue: #2457d6;
-  --blue-dark: #173fa8;
-  --green: #087443;
-  --gold: #f0b429;
-  --bg: #f4f7fc;
-  --text: #17233c;
-  --muted: #667085;
-}
+  <style>
+    :root {
+      --blue: #2457d6;
+      --blue-dark: #173fa8;
+      --green: #087443;
+      --gold: #f0b429;
+      --bg: #f4f7fc;
+      --text: #17233c;
+      --muted: #667085;
+      --border: #d5deeb;
+    }
 
-* { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: white;
-  padding: 17px 6%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 15px;
-  box-shadow: 0 3px 15px #17233c12;
-}
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #fff;
+      padding: 16px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      box-shadow: 0 3px 15px #17233c12;
+    }
 
-.brand {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--green);
-}
+    .brand {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--green);
+    }
 
-.brand span { color: var(--blue); }
+    .brand span {
+      color: var(--blue);
+    }
 
-nav {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+    nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
 
-nav a {
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 600;
-}
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+    }
 
-nav a:hover { color: var(--blue); }
+    nav a:hover {
+      color: var(--blue);
+    }
 
-.hero {
-  padding: 75px 20px 95px;
-  text-align: center;
-  color: white;
-  background: linear-gradient(130deg, #123575, #2457d6 55%, #087b68);
-}
+    .hero {
+      padding: 70px 20px 88px;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(130deg, #123575, #2457d6 55%, #087b68);
+    }
 
-.eyebrow {
-  color: #ffe08a;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 12px;
-  font-weight: bold;
-}
+    .eyebrow {
+      color: #ffe08a;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: bold;
+    }
 
-.hero h1 {
-  max-width: 850px;
-  margin: 16px auto;
-  font-size: clamp(32px, 5vw, 54px);
-  line-height: 1.15;
-}
+    .hero h1 {
+      max-width: 850px;
+      margin: 16px auto;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.15;
+    }
 
-.hero p {
-  max-width: 680px;
-  margin: auto;
-  color: #eef3ff;
-}
+    .hero p {
+      max-width: 680px;
+      margin: auto;
+      color: #eef3ff;
+    }
 
-.search-panel {
-  position: relative;
-  max-width: 1000px;
-  margin: -35px auto 30px;
-  padding: 24px;
-  background: white;
-  border-radius: 18px;
-  box-shadow: 0 15px 40px #17233c18;
-}
+    /* Search panel: force visibility */
+    .search-panel {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      position: relative;
+      z-index: 5;
+      width: calc(100% - 32px);
+      max-width: 1000px;
+      margin: -34px auto 30px;
+      padding: 24px;
+      background: #fff !important;
+      color: var(--text);
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      box-shadow: 0 15px 40px #17233c20;
+    }
 
-.search-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
-}
+    .search-panel form {
+      display: block !important;
+      visibility: visible !important;
+    }
 
-input, select, button { font: inherit; border-radius: 9px; }
+    .search-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: stretch;
+    }
 
-input, select {
-  width: 100%;
-  min-width: 0;
-  min-height: 48px;
-  padding: 12px;
-  border: 1px solid #d5deeb;
-  background: white;
-  color: var(--text);
-}
+    input,
+    select,
+    button {
+      font: inherit;
+      border-radius: 9px;
+    }
 
-input:focus, select:focus {
-  outline: 3px solid #2457d625;
-  border-color: var(--blue);
-}
+    .search-panel input,
+    .search-panel select {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      width: 100%;
+      min-width: 0;
+      min-height: 50px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      background: #fff !important;
+      color: var(--text) !important;
+    }
 
-button, .action {
-  display: inline-block;
-  border: 0;
-  border-radius: 9px;
-  padding: 11px 15px;
-  background: var(--blue);
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  cursor: pointer;
-}
+    .search-panel input::placeholder {
+      color: #667085;
+      opacity: 1;
+    }
 
-button:hover, .action:hover { background: var(--blue-dark); }
+    .search-panel input:focus,
+    .search-panel select:focus {
+      outline: 3px solid #2457d625;
+      border-color: var(--blue);
+    }
 
-button:disabled { opacity: .6; cursor: wait; }
+    button,
+    .action {
+      display: inline-block;
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 16px;
+      background: var(--blue);
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-.filters {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 13px;
-}
+    button:hover,
+    .action:hover {
+      background: var(--blue-dark);
+    }
 
-main {
-  max-width: 1200px;
-  margin: auto;
-  padding: 25px 22px 60px;
-}
+    button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
 
-.section-heading { margin: 25px 0; }
+    .search-row button {
+      min-width: 155px;
+      white-space: nowrap;
+    }
 
-.section-heading h2 {
-  color: var(--blue-dark);
-  font-size: 29px;
-  margin-bottom: 4px;
-}
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 13px;
+    }
 
-.section-heading p {
-  color: var(--muted);
-  margin-top: 0;
-}
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 24px 22px 60px;
+    }
 
-.notice {
-  background: #fff7df;
-  border-left: 4px solid var(--gold);
-  border-radius: 7px;
-  padding: 13px 16px;
-  margin-bottom: 22px;
-  font-size: 14px;
-}
+    .section-heading {
+      margin: 25px 0;
+    }
 
-#directoryStatus {
-  margin: 14px 0;
-  color: var(--muted);
-  font-weight: 600;
-}
+    .section-heading h2 {
+      color: var(--blue-dark);
+      font-size: 29px;
+      margin-bottom: 4px;
+    }
 
-.results {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-}
+    .section-heading p {
+      color: var(--muted);
+      margin-top: 0;
+    }
 
-.listing {
-  background: white;
-  padding: 21px;
-  border: 1px solid #e2e8f0;
-  border-radius: 15px;
-  box-shadow: 0 5px 18px #17233c08;
-  overflow-wrap: anywhere;
-}
+    .notice {
+      background: #fff7df;
+      border-left: 4px solid var(--gold);
+      border-radius: 7px;
+      padding: 13px 16px;
+      margin-bottom: 22px;
+      font-size: 14px;
+    }
 
-.listing h3 {
-  color: var(--green);
-  margin: 10px 0 5px;
-}
+    #directoryStatus {
+      margin: 14px 0;
+      color: var(--muted);
+      font-weight: 600;
+    }
 
-.listing p { margin: 7px 0; font-size: 14px; }
+    .results {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
 
-.category {
-  display: inline-block;
-  background: #e8f4ec;
-  color: var(--green);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-}
+    .listing {
+      background: #fff;
+      padding: 21px;
+      border: 1px solid #e2e8f0;
+      border-radius: 15px;
+      box-shadow: 0 5px 18px #17233c08;
+      overflow-wrap: anywhere;
+    }
 
-.status {
-  color: var(--muted);
-  font-size: 12px !important;
-}
+    .listing h3 {
+      color: var(--green);
+      margin: 10px 0 5px;
+    }
 
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 15px;
-}
+    .listing p {
+      margin: 7px 0;
+      font-size: 14px;
+    }
 
-.actions a { font-size: 13px; padding: 9px 12px; }
+    .category {
+      display: inline-block;
+      background: #e8f4ec;
+      color: var(--green);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
 
-.call { background: var(--green); }
-.secondary { background: #475467; }
+    .status {
+      color: var(--muted);
+      font-size: 12px !important;
+    }
 
-.empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  background: white;
-  padding: 35px 20px;
-  border-radius: 12px;
-}
+    .verified-label {
+      display: inline-block;
+      color: #087443;
+      background: #e8f4ec;
+      border-radius: 20px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
 
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 25px;
-}
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+    }
 
-.info-card {
-  background: white;
-  padding: 22px;
-  border-radius: 13px;
-  border-top: 4px solid var(--gold);
-}
+    .actions a {
+      font-size: 13px;
+      padding: 9px 12px;
+    }
 
-.info-card h3 { color: var(--green); }
+    .call {
+      background: var(--green);
+    }
 
-footer {
-  background: #14254a;
-  color: white;
-  text-align: center;
-  padding: 30px 20px;
-  margin-top: 35px;
-}
+    .secondary {
+      background: #475467;
+    }
 
-footer p { margin: 5px; }
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      background: #fff;
+      padding: 35px 20px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
 
-@media (max-width: 760px) {
-  header {
-    flex-direction: column;
-    text-align: center;
-  }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 25px;
+    }
 
-  nav { justify-content: center; gap: 14px; }
+    .info-card {
+      background: #fff;
+      padding: 22px;
+      border-radius: 13px;
+      border-top: 4px solid var(--gold);
+    }
 
-  .search-panel {
-    margin: -25px 12px 25px;
-    padding: 16px;
-  }
+    .info-card h3 {
+      color: var(--green);
+    }
 
-  .search-row, .filters, .results, .info-grid {
-    grid-template-columns: 1fr;
-  }
+    footer {
+      background: #14254a;
+      color: #fff;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 35px;
+    }
 
-  main { padding: 20px 14px 40px; }
-}
-</style>
+    footer p {
+      margin: 5px;
+    }
+
+    @media (max-width: 760px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      nav {
+        justify-content: center;
+        gap: 14px;
+      }
+
+      .hero {
+        padding: 55px 18px 75px;
+      }
+
+      .search-panel {
+        margin: -24px auto 24px;
+        padding: 16px;
+        width: calc(100% - 24px);
+      }
+
+      .search-row,
+      .filters,
+      .results,
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .search-row button {
+        width: 100%;
+      }
+
+      main {
+        padding: 20px 14px 40px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <div class="brand">PUBLIC CONTACT <span>DIRECTORY</span></div>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#directory">Directory</a>
-    <a href="#how-it-works">How It Works</a>
-  </nav>
-</header>
+  <header>
+    <div class="brand">PUBLIC CONTACT <span>DIRECTORY</span></div>
 
-<section class="hero" id="home">
-  <div class="eyebrow">Connecting people across Nigeria</div>
-  <h1>Find the Right Contact. Reach the Right Place.</h1>
-  <p>
-    Search public businesses, organisations, government offices and services.
-    Find published contact details and official ways to get in touch.
-  </p>
-</section>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#directory">Directory</a>
+      <a href="#how-it-works">How It Works</a>
+    </nav>
+  </header>
 
-<section class="search-panel" aria-label="Directory search">
-  <form id="searchForm">
-    <div class="search-row">
-      <input
-        id="searchInput"
-        type="search"
-        placeholder="Search a name, service, office or phone number"
-        aria-label="Search directory"
-      >
-      <button id="searchButton" type="submit">Search Directory</button>
-    </div>
+  <section class="hero" id="home">
+    <div class="eyebrow">Connecting people across Nigeria</div>
 
-    <div class="filters">
-      <select id="categoryFilter" aria-label="Filter by category">
-        <option value="all">All categories</option>
-        <option>Government</option>
-        <option>Government Agency</option>
-        <option>Police</option>
-        <option>Road Safety</option>
-        <option>Customs</option>
-        <option>Immigration</option>
-        <option>Civil Defence</option>
-        <option>Fire Service</option>
-        <option>Emergency Services</option>
-        <option>Legal Services</option>
-        <option>Health</option>
-        <option>Education</option>
-        <option>Business</option>
-        <option>NGO</option>
-        <option>Public Utilities</option>
-        <option>Consumer Protection</option>
-        <option>Other</option>
-      </select>
+    <h1>Find the Right Contact. Reach the Right Place.</h1>
 
-      <select id="stateFilter" aria-label="Filter by state">
-        <option value="all">All states and FCT</option>
-        <option>Abia</option><option>Adamawa</option>
-        <option>Akwa Ibom</option><option>Anambra</option>
-        <option>Bauchi</option><option>Bayelsa</option>
-        <option>Benue</option><option>Borno</option>
-        <option>Cross River</option><option>Delta</option>
-        <option>Ebonyi</option><option>Edo</option>
-        <option>Ekiti</option><option>Enugu</option>
-        <option>Gombe</option><option>Imo</option>
-        <option>Jigawa</option><option>Kaduna</option>
-        <option>Kano</option><option>Katsina</option>
-        <option>Kebbi</option><option>Kogi</option>
-        <option>Kwara</option><option>Lagos</option>
-        <option>Nasarawa</option><option>Niger</option>
-        <option>Ogun</option><option>Ondo</option>
-        <option>Osun</option><option>Oyo</option>
-        <option>Plateau</option><option>Rivers</option>
-        <option>Sokoto</option><option>Taraba</option>
-        <option>Yobe</option><option>Zamfara</option>
-        <option>FCT</option>
-      </select>
-
-      <select id="lgaFilter" aria-label="Filter by LGA">
-        <option value="all">All LGAs / Area Councils</option>
-      </select>
-    </div>
-  </form>
-</section>
-
-<main>
-  <section id="directory">
-    <div class="section-heading">
-      <h2>Explore the Directory</h2>
-      <p>Search available listings by name, category, location or published contact.</p>
-    </div>
-
-    <div class="notice">
-      Please verify important contact details using the organisation's official source.
-      Only public or consented contact information should be listed.
-    </div>
-
-    <div id="directoryStatus" role="status" aria-live="polite">
-      Connecting to the directory…
-    </div>
-
-    <div class="results" id="results" aria-live="polite"></div>
+    <p>
+      Search public businesses, organisations, government offices and services.
+      Find published contact details and official ways to get in touch.
+    </p>
   </section>
 
-  <section id="how-it-works">
-    <div class="section-heading">
-      <h2>A Directory Built on Trust</h2>
-      <p>Our goal is to make public contact information easier to find and verify.</p>
-    </div>
+  <section class="search-panel" aria-label="Directory search">
 
-    <div class="info-grid">
-      <article class="info-card">
-        <h3>Search Easily</h3>
-        <p>Find listings by name, service, category, location or available phone number.</p>
-      </article>
+    <form id="searchForm" role="search">
 
-      <article class="info-card">
-        <h3>Check the Source</h3>
-        <p>Check official websites, sources and verification dates before relying on a listing.</p>
-      </article>
+      <div class="search-row">
 
-      <article class="info-card">
-        <h3>Help Improve the Directory</h3>
-        <p>Incorrect public contact information should be reported for review before it is updated.</p>
-      </article>
-    </div>
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search a name, service, office or phone number"
+          aria-label="Search directory"
+          autocomplete="off"
+        >
+
+        <button id="searchButton" type="submit">
+          Search Directory
+        </button>
+
+      </div>
+
+      <div class="filters">
+
+        <select id="categoryFilter" aria-label="Filter by category">
+          <option value="all">All categories</option>
+          <option>Government</option>
+          <option>Government Agency</option>
+          <option>Police</option>
+          <option>Road Safety</option>
+          <option>Customs</option>
+          <option>Immigration</option>
+          <option>Civil Defence</option>
+          <option>Fire Service</option>
+          <option>Emergency Services</option>
+          <option>Legal Services</option>
+          <option>Health</option>
+          <option>Education</option>
+          <option>Business</option>
+          <option>NGO</option>
+          <option>Public Utilities</option>
+          <option>Consumer Protection</option>
+          <option>Other</option>
+        </select>
+
+        <select id="stateFilter" aria-label="Filter by state">
+          <option value="all">All states and FCT</option>
+          <option>Abia</option>
+          <option>Adamawa</option>
+          <option>Akwa Ibom</option>
+          <option>Anambra</option>
+          <option>Bauchi</option>
+          <option>Bayelsa</option>
+          <option>Benue</option>
+          <option>Borno</option>
+          <option>Cross River</option>
+          <option>Delta</option>
+          <option>Ebonyi</option>
+          <option>Edo</option>
+          <option>Ekiti</option>
+          <option>Enugu</option>
+          <option>Gombe</option>
+          <option>Imo</option>
+          <option>Jigawa</option>
+          <option>Kaduna</option>
+          <option>Kano</option>
+          <option>Katsina</option>
+          <option>Kebbi</option>
+          <option>Kogi</option>
+          <option>Kwara</option>
+          <option>Lagos</option>
+          <option>Nasarawa</option>
+          <option>Niger</option>
+          <option>Ogun</option>
+          <option>Ondo</option>
+          <option>Osun</option>
+          <option>Oyo</option>
+          <option>Plateau</option>
+          <option>Rivers</option>
+          <option>Sokoto</option>
+          <option>Taraba</option>
+          <option>Yobe</option>
+          <option>Zamfara</option>
+          <option>FCT</option>
+        </select>
+
+        <select id="lgaFilter" aria-label="Filter by LGA">
+          <option value="all">All LGAs / Area Councils</option>
+        </select>
+
+      </div>
+    </form>
   </section>
-</main>
 
-<footer>
-  <p><strong>Public Contact Directory Nigeria</strong></p>
-  <p>Helping people find public contacts and official channels.</p>
-  <p>Contact details should be verified before use.</p>
-</footer>
+  <main>
 
-<!-- Supabase database connection -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <section id="directory">
 
-<script>
-"use strict";
+      <div class="section-heading">
+        <h2>Explore the Directory</h2>
+        <p>Search by name, organisation, service, phone number or location.</p>
+      </div>
 
-const SUPABASE_URL = "https://xcxfhendyozxaktdckbi.supabase.co";
-const SUPABASE_KEY = "sb_publishable_ejmz1U8SXMYBJHXB_YQ7SQ_XsrQ4Y1e";
+      <div class="notice">
+        Only public or consented contact details should be listed.
+        Check the official source and verification date before relying on a contact.
+        A directory verification label means the record is marked verified in the database;
+        it is not a guarantee that a phone number is currently answered.
+      </div>
 
-const statusBox = document.getElementById("directoryStatus");
-const resultsBox = document.getElementById("results");
-const searchForm = document.getElementById("searchForm");
-const searchInput = document.getElementById("searchInput");
-const categoryFilter = document.getElementById("categoryFilter");
-const stateFilter = document.getElementById("stateFilter");
-const lgaFilter = document.getElementById("lgaFilter");
-const searchButton = document.getElementById("searchButton");
+      <div id="directoryStatus" role="status" aria-live="polite">
+        Connecting to the directory…
+      </div>
 
-let listings = [];
+      <div class="results" id="results" aria-live="polite"></div>
 
-function field(row, names) {
-  for (const name of names) {
-    const value = row[name];
+    </section>
 
-    if (value !== null && value !== undefined &&
-        String(value).trim() !== "") {
-      return String(value).trim();
+    <section id="how-it-works">
+
+      <div class="section-heading">
+        <h2>A Directory Built on Trust</h2>
+        <p>Our goal is to make public contact information easier to find and verify.</p>
+      </div>
+
+      <div class="info-grid">
+
+        <article class="info-card">
+          <h3>Search Easily</h3>
+          <p>Find listings by name, service, category, location or available phone number.</p>
+        </article>
+
+        <article class="info-card">
+          <h3>Check the Source</h3>
+          <p>Open the source link and review the date the contact was last checked, when available.</p>
+        </article>
+
+        <article class="info-card">
+          <h3>Responsible Listings</h3>
+          <p>Private personal numbers should not be published without the person's permission.</p>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><strong>Public Contact Directory Nigeria</strong></p>
+    <p>Helping people find public contacts and official channels.</p>
+    <p>Contact details should be verified before use.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    "use strict";
+
+    // Existing Supabase project credentials.
+    const SUPABASE_URL = "https://xcxfhendyozxaktdckbi.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_ejmz1U8SXMYBJHXB_YQ7SQ_XsrQ4Y1e";
+    const TABLE_NAME = "public_contacts";
+
+    const statusBox = document.getElementById("directoryStatus");
+    const resultsBox = document.getElementById("results");
+    const searchForm = document.getElementById("searchForm");
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const stateFilter = document.getElementById("stateFilter");
+    const lgaFilter = document.getElementById("lgaFilter");
+    const searchButton = document.getElementById("searchButton");
+
+    let listings = [];
+
+    function getField(row, names) {
+      for (const name of names) {
+        const value = row?.[name];
+
+        if (
+          value !== null &&
+          value !== undefined &&
+          String(value).trim() !== ""
+        ) {
+          return String(value).trim();
+        }
+      }
+
+      return "";
     }
-  }
 
-  return "";
-}
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[ch]));
+    }
 
-function esc(value) {
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  }[c]));
-}
+    function norm(value) {
+      return String(value ?? "")
+        .normalize("NFKD")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+    }
 
-function safeUrl(value) {
-  if (!value) return "";
+    function digits(value) {
+      return String(value ?? "").replace(/\D/g, "");
+    }
 
-  try {
-    const url = new URL(
-      /^https?:\/\//i.test(value) ? value : "https://" + value
-    );
+    function safeUrl(value) {
+      if (!value) return "";
 
-    return ["http:", "https:"].includes(url.protocol)
-      ? url.href : "";
-  } catch (_) {
-    return "";
-  }
-}
+      try {
+        const url = new URL(
+          /^https?:\/\//i.test(value)
+            ? value
+            : "https://" + value
+        );
 
-function normalise(row) {
-  return {
-    name: field(row, [
-      "full_name", "organization", "organisation",
-      "name", "office_name"
-    ]) || "Unnamed contact",
+        return ["http:", "https:"].includes(url.protocol)
+          ? url.href
+          : "";
 
-    organization: field(row, ["organization", "organisation"]),
-    category: field(row, ["category", "contact_type", "service_type"]) || "Other",
-    state: field(row, ["state", "state_name", "jurisdiction"]),
-    lga: field(row, [
-      "lga", "local_government_area", "local_government",
-      "area_council", "lga_name"
-    ]),
-    title: field(row, ["official_title", "title", "office_title"]),
-    description: field(row, [
-      "description", "notes", "services", "official_title"
-    ]),
-    phone: field(row, [
-      "public_phone", "phone", "phone_number", "contact_phone"
-    ]),
-    email: field(row, ["public_email", "email", "email_address"]),
-    website: field(row, [
-      "official_website", "website", "website_url"
-    ]),
-    address: field(row, [
-      "public_address", "address", "office_address"
-    ]),
-    source: field(row, [
-      "verification_source_url", "source_url",
-      "official_source", "source"
-    ]),
-    verifiedAt: field(row, [
-      "verified_at", "verification_date", "last_verified"
-    ])
-  };
-}
+      } catch (_) {
+        return "";
+      }
+    }
 
-function refreshLgas() {
-  const old = lgaFilter.value;
+    function isVerified(row) {
+      const status = norm(
+        getField(row, [
+          "verification_status",
+          "status",
+          "review_status",
+          "approval_status"
+        ])
+      );
 
-  const lgas = [
-    ...new Set(listings.map(item => item.lga).filter(Boolean))
-  ].sort((a, b) => a.localeCompare(b));
+      const booleanFlag =
+        row?.verified === true ||
+        row?.is_verified === true;
 
-  lgaFilter.innerHTML =
-    '<option value="all">All LGAs / Area Councils</option>' +
-    lgas.map(x =>
-      `<option value="${esc(x)}">${esc(x)}</option>`
-    ).join("");
+      return booleanFlag || ["verified", "approved"].includes(status);
+    }
 
-  if (lgas.includes(old)) lgaFilter.value = old;
-}
+    function normalise(row) {
+      const name = getField(row, [
+        "full_name",
+        "organization",
+        "organisation",
+        "name",
+        "office_name"
+      ]) || "Unnamed contact";
 
-function render() {
-  const term = searchInput.value.trim().toLowerCase();
-  const cat = categoryFilter.value.toLowerCase();
-  const state = stateFilter.value.toLowerCase();
-  const lga = lgaFilter.value.toLowerCase();
+      return {
+        name,
 
-  const found = listings.filter(item => {
-    const searchable = [
-      item.name, item.organization, item.category,
-      item.state, item.lga, item.title, item.description,
-      item.phone, item.email, item.address
-    ].join(" ").toLowerCase();
+        organization: getField(row, [
+          "organization",
+          "organisation",
+          "agency_name"
+        ]),
 
-    return (!term || searchable.includes(term)) &&
-      (cat === "all" || item.category.toLowerCase() === cat) &&
-      (state === "all" || item.state.toLowerCase() === state) &&
-      (lga === "all" || item.lga.toLowerCase() === lga);
-  });
+        category: getField(row, [
+          "category",
+          "contact_type",
+          "service_type"
+        ]) || "Other",
 
-  if (!found.length) {
-    resultsBox.innerHTML = `
-      <div class="empty">
-        <h3>No matching contacts found</h3>
-        <p>Try another name or remove one of the filters.
-        Only verified public or consented contacts are shown.</p>
-      </div>`;
+        state: getField(row, [
+          "state",
+          "state_name",
+          "jurisdiction"
+        ]),
 
-    if (listings.length) {
+        lga: getField(row, [
+          "lga",
+          "local_government_area",
+          "local_government",
+          "area_council",
+          "lga_name"
+        ]),
+
+        title: getField(row, [
+          "official_title",
+          "title",
+          "office_title"
+        ]),
+
+        description: getField(row, [
+          "description",
+          "notes",
+          "services",
+          "official_title"
+        ]),
+
+        phone: getField(row, [
+          "public_phone",
+          "phone",
+          "phone_number",
+          "contact_phone"
+        ]),
+
+        email: getField(row, [
+          "public_email",
+          "email",
+          "email_address"
+        ]),
+
+        website: getField(row, [
+          "official_website",
+          "website",
+          "website_url"
+        ]),
+
+        address: getField(row, [
+          "public_address",
+          "address",
+          "office_address"
+        ]),
+
+        source: getField(row, [
+          "verification_source_url",
+          "source_url",
+          "official_source",
+          "source"
+        ]),
+
+        verifiedAt: getField(row, [
+          "verified_at",
+          "verification_date",
+          "last_verified",
+          "verification_date_checked"
+        ]),
+
+        verificationStatus: getField(row, [
+          "verification_status",
+          "status",
+          "review_status",
+          "approval_status"
+        ]) || (
+          row.verified === true || row.is_verified === true
+            ? "verified"
+            : ""
+        )
+      };
+    }
+
+    function categoryMatches(itemCategory, selected) {
+      if (selected === "all") return true;
+
+      const aliases = {
+        "government": [
+          "government",
+          "ministry",
+          "public office",
+          "government office"
+        ],
+
+        "government agency": [
+          "government agency",
+          "agency",
+          "commission",
+          "authority",
+          "department"
+        ],
+
+        "police": [
+          "police",
+          "nigeria police",
+          "npf"
+        ],
+
+        "road safety": [
+          "road safety",
+          "frsc",
+          "federal road safety"
+        ],
+
+        "customs": [
+          "customs",
+          "nigeria customs",
+          "ncs"
+        ],
+
+        "immigration": [
+          "immigration",
+          "nis",
+          "nigeria immigration"
+        ],
+
+        "civil defence": [
+          "civil defence",
+          "civil defense",
+          "nscdc"
+        ],
+
+        "fire service": [
+          "fire service",
+          "fire and rescue"
+        ],
+
+        "emergency services": [
+          "emergency",
+          "ambulance",
+          "emergency services"
+        ],
+
+        "legal services": [
+          "lawyer",
+          "legal",
+          "law firm",
+          "legal services"
+        ]
+      };
+
+      const cat = norm(itemCategory);
+      const choice = norm(selected);
+
+      return cat === choice ||
+        (aliases[choice] || [choice]).some(alias =>
+          cat.includes(alias) || norm(alias).includes(cat)
+        );
+    }
+
+    function refreshLgas() {
+      const old = lgaFilter.value;
+      const selectedState = norm(stateFilter.value);
+
+      const areas = [
+        ...new Set(
+          listings
+            .filter(item =>
+              selectedState === "all" ||
+              norm(item.state) === selectedState
+            )
+            .map(item => item.lga)
+            .filter(Boolean)
+        )
+      ].sort((a, b) => a.localeCompare(b));
+
+      lgaFilter.innerHTML =
+        '<option value="all">All LGAs / Area Councils</option>' +
+        areas.map(area =>
+          `<option value="${esc(area)}">${esc(area)}</option>`
+        ).join("");
+
+      if (areas.some(area => norm(area) === norm(old))) {
+        lgaFilter.value = areas.find(
+          area => norm(area) === norm(old)
+        );
+      } else {
+        lgaFilter.value = "all";
+      }
+
+      lgaFilter.disabled = areas.length === 0;
+    }
+
+    function render() {
+      const term = norm(searchInput.value);
+      const termDigits = digits(term);
+
+      const cat = categoryFilter.value;
+      const state = norm(stateFilter.value);
+      const lga = norm(lgaFilter.value);
+
+      const found = listings.filter(item => {
+        const searchable = norm([
+          item.name,
+          item.organization,
+          item.category,
+          item.state,
+          item.lga,
+          item.title,
+          item.description,
+          item.phone,
+          item.email,
+          item.address
+        ].join(" "));
+
+        const phoneDigits = digits(item.phone);
+
+        const matchesText =
+          !term ||
+          searchable.includes(term) ||
+          (
+            termDigits.length > 0 &&
+            phoneDigits.includes(termDigits)
+          );
+
+        return (
+          matchesText &&
+          categoryMatches(item.category, cat) &&
+          (state === "all" || norm(item.state) === state) &&
+          (lga === "all" || norm(item.lga) === lga)
+        );
+      });
+
+      if (!found.length) {
+        resultsBox.innerHTML = `
+          <div class="empty">
+            <h3>
+              ${listings.length
+                ? "No matching contacts found"
+                : "No verified contacts available"}
+            </h3>
+            <p>
+              ${listings.length
+                ? "Try another name or phone number, or remove one of the filters."
+                : "There are currently no records marked verified in the database."}
+            </p>
+          </div>
+        `;
+
+        if (listings.length) {
+          statusBox.textContent =
+            `Loaded ${listings.length} verified contact(s). No matches for this search.`;
+        }
+
+        return;
+      }
+
+      resultsBox.innerHTML = found.map(item => {
+        const phoneLink = item.phone.replace(/[^\d+]/g, "");
+        const website = safeUrl(item.website);
+        const source = safeUrl(item.source);
+
+        const place = [
+          item.lga,
+          item.state
+        ].filter(Boolean).join(", ");
+
+        return `
+          <article class="listing">
+
+            <span class="category">${esc(item.category)}</span>
+            <span class="verified-label">✓ Verified listing</span>
+
+            <h3>${esc(item.name)}</h3>
+
+            ${item.title
+              ? `<p><strong>Office/title:</strong> ${esc(item.title)}</p>`
+              : ""}
+
+            ${item.organization && item.organization !== item.name
+              ? `<p><strong>Organisation:</strong> ${esc(item.organization)}</p>`
+              : ""}
+
+            ${place
+              ? `<p><strong>Location:</strong> ${esc(place)}</p>`
+              : ""}
+
+            ${item.description
+              ? `<p>${esc(item.description)}</p>`
+              : ""}
+
+            ${item.phone
+              ? `<p><strong>Phone:</strong> <a href="tel:${esc(phoneLink)}">${esc(item.phone)}</a></p>`
+              : "<p><strong>Phone:</strong> Not published</p>"}
+
+            ${item.email
+              ? `<p><strong>Email:</strong> <a href="mailto:${esc(item.email)}">${esc(item.email)}</a></p>`
+              : ""}
+
+            ${item.address
+              ? `<p><strong>Address:</strong> ${esc(item.address)}</p>`
+              : ""}
+
+            ${item.verifiedAt
+              ? `<p class="status">Last verified: ${esc(item.verifiedAt)}</p>`
+              : `<p class="status">Marked verified in the directory; verification date not supplied.</p>`}
+
+            <div class="actions">
+
+              ${phoneLink
+                ? `<a class="action call" href="tel:${esc(phoneLink)}">Call</a>`
+                : ""}
+
+              ${item.email
+                ? `<a class="action secondary" href="mailto:${esc(item.email)}">Email</a>`
+                : ""}
+
+              ${website
+                ? `<a class="action secondary" href="${esc(website)}" target="_blank" rel="noopener noreferrer">Website</a>`
+                : ""}
+
+              ${source
+                ? `<a class="action secondary" href="${esc(source)}" target="_blank" rel="noopener noreferrer">Verification source</a>`
+                : ""}
+
+            </div>
+          </article>
+        `;
+      }).join("");
+
       statusBox.textContent =
-        `Loaded ${listings.length} verified contact(s). No matches for this search.`;
+        `Showing ${found.length} of ${listings.length} verified contact(s).`;
     }
 
-    return;
-  }
-
-  resultsBox.innerHTML = found.map(item => {
-    const phone = item.phone.replace(/[^\d+]/g, "");
-    const website = safeUrl(item.website);
-    const source = safeUrl(item.source);
-    const place = [item.lga, item.state].filter(Boolean).join(", ");
-
-    return `
-      <article class="listing">
-        <span class="category">${esc(item.category)}</span>
-        <h3>${esc(item.name)}</h3>
-
-        ${item.title
-          ? `<p><strong>Office/title:</strong> ${esc(item.title)}</p>`
-          : ""}
-
-        ${item.organization && item.organization !== item.name
-          ? `<p><strong>Organisation:</strong> ${esc(item.organization)}</p>`
-          : ""}
-
-        ${place
-          ? `<p><strong>Location:</strong> ${esc(place)}</p>`
-          : ""}
-
-        ${item.description
-          ? `<p>${esc(item.description)}</p>`
-          : ""}
-
-        ${item.phone
-          ? `<p><strong>Phone:</strong> ${esc(item.phone)}</p>`
-          : ""}
-
-        ${item.email
-          ? `<p><strong>Email:</strong> ${esc(item.email)}</p>`
-          : ""}
-
-        ${item.address
-          ? `<p><strong>Address:</strong> ${esc(item.address)}</p>`
-          : ""}
-
-        <p class="status">
-          ${item.verifiedAt
-            ? "Verified: " + esc(item.verifiedAt)
-            : "Verified public listing"}
-        </p>
-
-        <div class="actions">
-          ${phone
-            ? `<a class="action call" href="tel:${esc(phone)}">Call</a>`
-            : ""}
-
-          ${item.email
-            ? `<a class="action secondary" href="mailto:${esc(item.email)}">Email</a>`
-            : ""}
-
-          ${website
-            ? `<a class="action secondary" href="${esc(website)}"
-                target="_blank" rel="noopener noreferrer">Website</a>`
-            : ""}
-
-          ${source
-            ? `<a class="action secondary" href="${esc(source)}"
-                target="_blank" rel="noopener noreferrer">Source</a>`
-            : ""}
-        </div>
-      </article>`;
-  }).join("");
-
-  statusBox.textContent =
-    `Showing ${found.length} of ${listings.length} verified contact(s).`;
-}
-
-async function loadContacts() {
-  if (!window.supabase) {
-    statusBox.textContent =
-      "The database library did not load. Check your internet connection and reload.";
-    return;
-  }
-
-  searchButton.disabled = true;
-  statusBox.textContent = "Loading verified public contacts…";
-
-  try {
-    const client = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-    const { data, error } = await client
-      .from("public_contacts")
-      .select("*")
-      .eq("verification_status", "verified");
-
-    if (error) {
-      console.error("Supabase query failed:", error);
+    async function loadContacts() {
+      searchButton.disabled = true;
 
       statusBox.textContent =
-        "Could not load contacts: " + error.message;
+        "Loading verified public contacts…";
 
-      resultsBox.innerHTML = `
-        <div class="empty">
-          <h3>Directory temporarily unavailable</h3>
-          <p>Please try again later.</p>
-        </div>`;
+      resultsBox.innerHTML =
+        '<div class="empty">Connecting to the directory…</div>';
 
-      return;
+      try {
+        if (
+          !window.supabase ||
+          typeof window.supabase.createClient !== "function"
+        ) {
+          throw new Error(
+            "The Supabase library did not load. Check your internet connection and reload."
+          );
+        }
+
+        const client = window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_KEY
+        );
+
+        const { data, error } = await client
+          .from(TABLE_NAME)
+          .select("*");
+
+        if (error) {
+          throw error;
+        }
+
+        const rows = data || [];
+
+        listings = rows
+          .filter(isVerified)
+          .map(normalise);
+
+        refreshLgas();
+
+        if (!listings.length) {
+          statusBox.textContent =
+            `Connected to Supabase. ${rows.length} row(s) were returned, but none is marked verified.`;
+
+          resultsBox.innerHTML = `
+            <div class="empty">
+              <h3>No verified contacts available</h3>
+              <p>
+                Check that verified records have verification_status
+                set to "verified" or a verified/is_verified boolean
+                set to true.
+              </p>
+            </div>
+          `;
+
+          return;
+        }
+
+        render();
+
+      } catch (error) {
+        console.error("Directory loading error:", error);
+
+        statusBox.textContent =
+          "Could not load contacts: " +
+          (error.message || "Unknown error");
+
+        resultsBox.innerHTML = `
+          <div class="empty">
+            <h3>Directory temporarily unavailable</h3>
+            <p>
+              Check the Supabase connection, table permissions
+              and internet connection, then reload.
+            </p>
+          </div>
+        `;
+
+      } finally {
+        searchButton.disabled = false;
+      }
     }
 
-    listings = (data || []).map(normalise);
-    refreshLgas();
+    searchForm.addEventListener("submit", event => {
+      event.preventDefault();
 
-    if (!listings.length) {
-      statusBox.textContent =
-        "Connected to the database, but no verified contacts were returned.";
+      render();
 
-      resultsBox.innerHTML = `
-        <div class="empty">
-          <h3>No verified contacts available</h3>
-          <p>Please check back later.</p>
-        </div>`;
+      document.getElementById("directory").scrollIntoView({
+        behavior: "smooth"
+      });
+    });
 
-      return;
-    }
+    searchInput.addEventListener("input", render);
 
-    statusBox.textContent =
-      `Successfully loaded ${listings.length} verified contact(s).`;
+    categoryFilter.addEventListener("change", render);
 
-    render();
+    stateFilter.addEventListener("change", () => {
+      refreshLgas();
+      render();
+    });
 
-  } catch (error) {
-    console.error("Directory startup error:", error);
+    lgaFilter.addEventListener("change", render);
 
-    statusBox.textContent =
-      "Directory error: " + (error.message || "Unknown error");
-
-  } finally {
-    searchButton.disabled = false;
-  }
-}
-
-searchForm.addEventListener("submit", event => {
-  event.preventDefault();
-  render();
-
-  document.getElementById("directory").scrollIntoView({
-    behavior: "smooth"
-  });
-});
-
-categoryFilter.addEventListener("change", render);
-stateFilter.addEventListener("change", render);
-lgaFilter.addEventListener("change", render);
-
-loadContacts();
-</script>
+    loadContacts();
+  </script>
 
 </body>
 </html>
