@@ -1137,28 +1137,37 @@
 
     let searchResults = [];
 
-    // VERIFIED DATABASE RESULTS
-    if (data.source === "database" && Array.isArray(data.contacts)) {
-      searchResults = data.contacts.map(contact => ({
-        name: field(contact, ["full_name", "organization", "name"]),
-        organization: field(contact, ["organization"]),
-        category: field(contact, ["category"]) || "Other",
-        state: field(contact, ["state"]),
-        lga: field(contact, ["lga"]),
-        title: field(contact, ["official_title"]),
-        description: field(contact, ["verification_notes", "description"]),
-        phone: field(contact, ["public_phone"]),
-        email: field(contact, ["public_email"]),
-        website: field(contact, ["official_website"]),
-        address: field(contact, ["public_address", "address"]),
-        source: field(contact, ["verification_source_url"]),
-        status: "Verified directory contact"
-      }));
-    }
+const databaseContacts = Array.isArray(data.contacts)
+    ? data.contacts
+    : [];
 
-    // UNVERIFIED PUBLIC WEB RESULTS
-    else if (Array.isArray(data.webResults)) {
-      searchResults = data.webResults.map(item => ({
+const onlineContacts = Array.isArray(data.webResults)
+    ? data.webResults
+    : [];
+
+// FIRST: Show verified contacts from Supabase.
+if (databaseContacts.length > 0) {
+    searchResults = databaseContacts.map(contact => ({
+        name: contact.full_name || contact.name || "Unnamed contact",
+        organization: contact.organization || "",
+        category: contact.category || "Other",
+        state: contact.state || "",
+        lga: contact.lga || "",
+        title: contact.official_title || "",
+        description: contact.verification_notes || "",
+        phone: contact.public_phone || "",
+        email: contact.public_email || "",
+        website: contact.official_website || "",
+        address: contact.public_address || "",
+        source: contact.verification_source_url || contact.contact_source || "",
+        status: "Verified directory contact"
+    }));
+}
+
+// SECOND: Only show web discoveries when no verified
+// database contact was found.
+else if (onlineContacts.length > 0) {
+    searchResults = onlineContacts.map(item => ({
         name: item.name || "Public web result",
         organization: "",
         category: "Web discovery",
@@ -1171,14 +1180,14 @@
         website: item.website || item.source || "",
         address: "",
         source: item.source || item.website || "",
-        status: "UNVERIFIED WEB RESULT — check the source before use"
-      }));
-    }
+        status: "UNVERIFIED WEB RESULT - Check the official source"
+    }));
+}
 
-    listings = searchResults;
+listings = searchResults;
 
-    refreshLgaOptions();
-    renderListings();
+refreshLgaOptions();
+renderListings();
 
     statusBox.textContent = data.message ||
       `${searchResults.length} search result(s) found.`;
