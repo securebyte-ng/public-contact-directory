@@ -1119,7 +1119,7 @@
   statusBox.textContent = "Searching verified contacts first...";
 
   try {
-    const { data, error } = await supabaseClient.functions.invoke(
+    const { data, error } = await window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY).functions.invoke(
       "contact-search",
       {
         body: { name: query }
